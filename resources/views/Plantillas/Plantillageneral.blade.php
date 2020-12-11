@@ -1,60 +1,38 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<x-app-layout>{{-- Nos trae la vista app.blade, desde el archivo app->view->components->appLAyout.php --}}
 
-        <title>Laravel</title>
+        <div class="flex flex-col md:flex-row h-screen w-screen relative">{{-- Barra lateral izq --}}
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+            <div class="bg-gray-800 shadow w-20 flex-grow-0">
+                
+                   <div class="h-45 w-20 grid grid-cols-1 gap-y-2">
+                       <div class="bg-yellow-100">{{-- Item --}}
+                            
+                       </div>
+                   </div>
+                    
+            </div>
 
-        <!-- TAILWIND!! -->
-        
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        
-        @livewireStyles
-        
-        <!-- Scripts -->
-        <script src="{{ mix('js/app.js') }}" defer></script>{{-- alphine para trabajar con js, el valor defer hace como si los escripts estuvieran hasta el final del body--}}
-    </head>
-    
-<body>
-        
-        {{-- Prueba codigo --}}
-        
-        <!-- This example requires Tailwind CSS v2.0+ -->
-    <div>
-      <!-- INICIO PRIMER BARRA SUPERIOR  -->
-      @include('Plantillas.MiNavbar')
-      <!-- FIN PRIMER BARRA SUPERIOR  -->
-  
-      @include('Plantillas.Miheader')
-  
-          <main> {{-- APARTIR DE AQUI VA NUESTRO CODIGO --}}
+            <div class="overflow-auto flex-1 flex-grow"> {{-- Area flex de contenido --}}
+            
+                <x-barra-header>
+                    @yield('headerblancotecho')
+                </x-barra-header>
+
+            {{--@include('Plantillas.Miheader')--}}
    
-              @include('Plantillas.Alertas.Alerta1')
+              {{--@include('Plantillas.Alertas.Alerta1')--}}
    
               <!-- INICIO ESPACIO DE TRABAJO -->
-              <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+              <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 h-4/5">
               <!-- Aqui empieza el contenido pero ya con los margenes -->
-          
-                  <div class="px-4 py-6 sm:px-0">
-                      <div class="border-4 border-dashed border-gray-200 rounded-lg h-96">
-                      <!-- INICIO DIV CUADRO PUNTEADO -->
+                
                           @yield('micodigo')
                       <!-- FIN DIV CUADRO PUNTEADO -->
-                      </div>
-                  </div>
-                <!-- FIN contenido pero ya con los margenes -->
+                      
+              </div>
+
+
             </div>
-            <!-- FIN DIV ESPACIO DE TRABAJO -->
-    
-        </main>
-    </div>
-     
-     @stack('modals')
-      
-    @livewireScripts    
-</body>
-</html>
+
+        </div>
+</x-app-layout>
