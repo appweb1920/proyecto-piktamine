@@ -149,9 +149,9 @@
                 </x-jet-dropdown>
                @else
                    
-                   <a href="{{ route('login') }}" class="text-sm text-white underline">Login</a>
+                   <a href="{{ route('login') }}" class="text-sm text-white underline">Entrar</a>
 
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-white underline">Register</a>
+                    <a href="{{ route('register') }}" class="ml-4 text-sm text-white underline">Registrarse</a>
                 
                @endauth
                 

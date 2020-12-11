@@ -11,5 +11,5 @@ class MTorneos extends Model
     
     public $table = 'm_torneos';
     
-    protected $fillable = ['idEvento','Nombrejuego','Formato'];
+    protected $fillable = ['idEvento','Nombrejuego','Formato','creadopor'];
 }

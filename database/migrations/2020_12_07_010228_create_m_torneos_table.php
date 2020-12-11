@@ -18,6 +18,7 @@ class CreateMTorneosTable extends Migration
             $table->unsignedBigInteger('idEvento');
             $table->string('Nombrejuego');
             $table->string('Formato');
+            $table->unsignedBigInteger('creadopor');
             
             $table->foreign('idEvento')
                 ->references('id')

@@ -6,21 +6,24 @@ use Livewire\Component;
 use App\Models\MJugadores;
 use App\Models\MBracketIndividual;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Registrojugadores extends Component
 {
-    public $idtorneo,$nombre,$tag,$sponsor,$idevento,$datosj;
-    public $n=1,$aviso=false;
+    public $idtorneo,$nombre,$tag,$sponsor,$idevento,$datosj,$idusuario;
+    public $n=1,$aviso=false,$haydatos;
     
     public function mount($datatorneo,$id_event){
         $this->idtorneo = $datatorneo->id;
         $this->idevento = $id_event;
+        $this->idusuario = $datatorneo->creadopor;
     }
     
     public function render()
     {
         $this->datosj=DB::table('m_jugadores')->where('idTorneo', '=',$this->idtorneo)->get();
         //$datosj=MJugadores::latest('id')->get();
+        
         return view('livewire.registrojugadores')->with('datosj',$this->datosj);//tukutuku
     }
     
@@ -29,7 +32,10 @@ class Registrojugadores extends Component
         $pre=DB::table('m_bracket_individuals')->orderBy('created_at','desc')->first();
         if(!empty($pre)){
             $pree=MBracketIndividual::find($pre->id);
+            $this->haydatos=true;
         }
+        else
+        {$this->haydatos=false;}
         
         
         if(!empty($pre)){
