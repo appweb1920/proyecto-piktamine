@@ -55,8 +55,11 @@ class Creaciondetorneos extends Component
             'creadopor'=>Auth::id()
         ]);//create me guarda en la base de datos
         
+            
+
+        
         //lo ponemos como un arreglo
-        $this->reset(['Nombrejuego','evento']);
+        $this->reset(['Nombrejuego','Formato']);
         //$this->$action="store";
     }
     //select con blade,eloquent para el select + mandar los datos en el with normal

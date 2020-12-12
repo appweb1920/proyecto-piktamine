@@ -1,10 +1,11 @@
 <div class="mb-10 pb-10">
 
+{{-- Parte superior de alphine para que funcione la notificacion --}}
+@include('Plantillas.Alertas.alphineNotifyArriba')
 
 @if(Auth::user()->id==$idusuario)
 <h1 class="my-7 text-4xl font-bold">Agregar Torneo</h1> 
    
-     Hay torneos: {{$haytorneos}}
 
    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2 max-w-4xl mx-auto">
     {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
@@ -40,7 +41,8 @@
                 </div>
         </div>
         <div class="flex -mx-3 md:flex mb-6 justify-items-center justify-center">
-            <button wire:click="store" class="bg-transparent hover:bg-gray-100 text-xl text-blue-dark font-semibold hover:text-indigo-600 py-2 px-7 mt-4 border border-indigo hover:border-indigo-600 rounded">Agregar</button>
+            <button wire:click="store" class="bg-transparent hover:bg-gray-100 text-xl text-blue-dark font-semibold hover:text-indigo-600 py-2 px-7 mt-4 border border-indigo hover:border-indigo-600 rounded" x-data="{}"
+                @click="$dispatch('notice', {type: 'success', text: 'Insertado satisfactoriamente '})">Agregar</button>
         </div>
     
         {{--</form>--}}
@@ -68,7 +70,8 @@
            </div> 
            
            <div class="flex w-1/2 flex-row-reverse mb-3">
-               <button wire:click="delete({{$ti->id}})" class="bg-red-500 hover:bg-red-700 text-white font-bold px-4 py-2 rounded mt-3 ml-2 fill-current shadow">Eliminar</button>
+               <button wire:click="delete({{$ti->id}})" class="bg-red-500 hover:bg-red-700 text-white font-bold px-4 py-2 rounded mt-3 ml-2 fill-current shadow" x-data="{}"
+                @click="$dispatch('notice', {type: 'warning', text: 'Eliminado satisfactoriamente '})">Eliminar</button>
                <button wire:click="gobracket({{$ti->idEvento}},{{$ti->id}})" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded mt-3 ml-2 fill-current shadow">Ver bracket</button>
                <button wire:click="gotourney({{$ti->id}},{{$ti->idEvento}})" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded mt-3 fill-current shadow">Gestionar</button>
            </div>
@@ -125,5 +128,8 @@
     
     </div>
     
-</div>
+    
+{{-- parte de abajo script de alphine para que funcione la notificacion--}}
+@include('Plantillas.Alertas.alphineNotifyAbajo')
+    
 </div>

@@ -7,7 +7,6 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title> {{-- Va a configurar el valor del nombre para ponerlo en el .env --}}
         
-        
         <link rel="stylesheet" href="{{ asset('plugins/jquery-bracket-master/dist/jquery.bracket.min.css') }}"/>
         
         {{--
@@ -22,6 +21,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
+        
 
         @livewireStyles
 
@@ -40,5 +41,6 @@
         @stack('modals')
 
         @livewireScripts
+
     </body>
 </html>

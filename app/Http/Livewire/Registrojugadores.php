@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Registrojugadores extends Component
 {
-    public $idtorneo,$nombre,$tag,$sponsor,$idevento,$datosj,$idusuario;
-    public $n=1,$aviso=false,$haydatos;
+    public $idtorneo,$nombre,$tag,$sponsor,$idevento,$datosj,$datosb,$datosbf,$idusuario;
+    public $n=1,$aviso=false,$haydatos=false;
+    public $nparticipantes=0,$capacidad=0,$npartidasiniciales=0;
     
     public function mount($datatorneo,$id_event){
         $this->idtorneo = $datatorneo->id;
@@ -22,7 +23,17 @@ class Registrojugadores extends Component
     public function render()
     {
         $this->datosj=DB::table('m_jugadores')->where('idTorneo', '=',$this->idtorneo)->get();
+        $this->datosb=DB::table('m_bracket_individuals')->where('idTorneo', '=',$this->idtorneo)->get();
+        $this->datosbf=MBracketIndividual::firstOrNew();
+        $this->nparticipantes=count($this->datosj);
+        $this->capacidad=$this->datosbf->Capacidad;
+        $this->npartidasiniciales=(count($this->datosb)*2);
         //$datosj=MJugadores::latest('id')->get();
+        if(!empty($this->datosj)){
+            $this->haydatos=true;
+        }else{
+            $this->haydatos=false;
+        }
         
         return view('livewire.registrojugadores')->with('datosj',$this->datosj);//tukutuku
     }
@@ -32,12 +43,8 @@ class Registrojugadores extends Component
         $pre=DB::table('m_bracket_individuals')->orderBy('created_at','desc')->first();
         if(!empty($pre)){
             $pree=MBracketIndividual::find($pre->id);
-            $this->haydatos=true;
         }
-        else
-        {$this->haydatos=false;}
-        
-        
+           
         if(!empty($pre)){
         
             if(count($this->datosj)<$pree->Capacidad){
@@ -49,7 +56,7 @@ class Registrojugadores extends Component
                 ]);//create me guarda en la base de datos
         
                 $ultimo=DB::table('m_jugadores')->orderBy('created_at','desc')->first();
-        
+                
                 //lo ponemos como un arreglo
                 //$this->reset(['name','body']);
                 //$this->$action="store";
@@ -92,7 +99,6 @@ class Registrojugadores extends Component
             $ultimo=DB::table('m_jugadores')->orderBy('created_at','desc')->first();
         
             //lo ponemos como un arreglo
-            //$this->reset(['name','body']);
             //$this->$action="store";
         
             //pone el primero
@@ -110,6 +116,8 @@ class Registrojugadores extends Component
             }
         }
         
+        $this->reset(['sponsor','tag','nombre']);
+        
     }
     public function gobracket(){//crear el los brackets
         //$todoslosjugadores=DB::table('m_jugadores')->where('idTorneo', '=',$this->idtorneo)->get();
@@ -118,6 +126,12 @@ class Registrojugadores extends Component
         //$pmitad=$todoslosjugadores;
         
         return redirect(route('R-bracketindividual',[$this->idevento,$this->idtorneo]));
+    }
+    
+    public function reiniciartodo(){
+        DB::table('m_jugadores')->delete();
+        DB::table('m_bracket_individuals')->delete();
+        $this->reset(['haydatos','n']);
     }
     
     public function delete($id){

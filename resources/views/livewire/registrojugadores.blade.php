@@ -11,6 +11,8 @@
         
     @endif
     
+    @include('Plantillas.Alertas.alphineNotifyArriba')
+    
     @if(Auth::user()->id==$idusuario) {{-- solo el usuario propietario puede registra jugadores a su mismo torneo --}}
     
     <h1 class="my-7 text-4xl font-bold">Resgistro de jugadores</h1>
@@ -31,56 +33,88 @@
        </div>
        
        <div class="col-span-3 flex flex-items-center justify-center">
-            <button wire:click="store()" class="bg-transparent w-6/12 h-15 hover:bg-gray-100 text-blue-dark font-semibold hover:text-indigo-600 border border-indigo hover:border-indigo-600 rounded my-5">Registrar jugador</button>
+            <button wire:click="store()" class="bg-transparent w-6/12 h-15 hover:bg-gray-100 text-blue-dark font-semibold hover:text-indigo-600 border border-indigo hover:border-indigo-600 rounded my-5" x-data="{}"
+            @click="$dispatch('notice', {type: 'success', text: 'Jugador registrado con exito'})">Registrar jugador</button>
         </div>
         
         </div>
         <div class="flex bg-white w-1/4 rounded ml-4 mr-2 items-center justify-center">
-            <button wire:click="gobracket()" class="bg-indigo-500 w-5/6 h-5/6 rounded hover:bg-indigo-700 text-white font-bold rounded fill-current shadow">
+           
+           @if($npartidasiniciales==4 || $npartidasiniciales==8 || $npartidasiniciales==16 || $npartidasiniciales==32)
+               <button wire:click="gobracket()" class="bg-indigo-500 w-5/6 h-5/6 rounded hover:bg-indigo-700 text-white font-bold rounded fill-current shadow">
                 Ver bracket
             </button>
+           @else
+               <button class="bg-indigo-500 w-5/6 h-5/6 rounded hover:bg-indigo-700 text-white font-bold rounded fill-current shadow" x-data="{}"
+                @click="$dispatch('notice', {type: 'warning', text: 'El numero de partidas iniciales debe ser 4,8,16 o 32 para poder generar el bracket'})">
+                Ver bracket
+               </button>
+           @endif
+        
         </div>
     </div>
     
     @endif
     
     <h1 class="my-7 text-4xl font-bold">Informacion</h1>
-        <div>n participantes</div>
-        <div>n partidas iniciales</div>
-        <div>Capacidad</div>
-        <div>ver bracket</div>
-    <div class="bg-yellow-600 max-w-4xl mx-auto h-100">
-    
+    <div class="grid grid-cols-2 grid-flow-col grid-rows-2 bg-white max-w-4xl mx-auto h-60 rounded-lg">
+        <div class="border-solid border-4 shadow p-5">
+            <p class="text-left text-sm">Num de participantes:</p><p class="text-left text-xl">{{ $nparticipantes }}</p> </div>
+        <div class="border-solid border-4 shadow p-5">
+            <p class="text-left text-sm">Num de partidas iniciales:</p><p class="text-left text-xl">{{$npartidasiniciales}}</p></div>
+        <div class="border-solid border-4 shadow p-5">
+            <p class="text-left text-sm">Capacidad:</p><p class="text-left text-xl">{{ $capacidad }}</p></div>
+            @if(Auth::user()->id==$idusuario)
+        <div class="grid grid-cols-2 shadow border-solid border-4">
+            <button wire:click="gobracket()" class="bg-indigo-600 m-4 rounded text-white hover:bg-indigo-800 font-bold">ver bracket</button>
+            <button wire:click="reiniciartodo()" class="bg-red-600 m-4 rounded text-white hover:bg-red-800 font-bold" x-data="{}"
+                x-on:click="$dispatch('notice', {type: 'danger', text: 'Datos borrados con exito'})">reiniciarbracket</button>
+        </div>
+        @else
+            <div class="grid grid-cols-1 shadow border-solid border-4">
+            @if($npartidasiniciales==4 || $npartidasiniciales==8 || $npartidasiniciales==16 || $npartidasiniciales==32)
+            
+                <button wire:click="gobracket()" class="bg-indigo-600 m-4 rounded text-white hover:bg-indigo-800 font-bold">ver bracket</button>
+            
+            @else
+            
+                <button class="bg-indigo-600 m-4 rounded text-white hover:bg-indigo-800 font-bold" x-data="{}"
+                @click="$dispatch('notice', {type: 'warning', text: 'El numero de partidas iniciales debe ser 4,8,16 o 32 para poder generar el bracket'})">ver bracket</button>
+            
+            @endif
+        
+        </div>
+        @endif
     </div>
     
     <h1 class="my-7 text-4xl font-bold">Participantes</h1>
     
-    {{$n}}
-    
-    @if($haydatos==true)
+    @if($haydatos)
     <div class="bg-white max-w-4xl mx-auto h-100">
-        <div class="bg-yellow-300 relative w-full h-full">
+        <div class="bg-white relative w-full h-full py-6">
             <div class="overflow-auto h-11/12">
                 @foreach($datosj as $index => $d)
-                    <div class="grid bg-red-400 my-3 mx-1 px-1 py-2 rounded grid-cols-5 gap-4">
+                    <div class="grid bg-gray-200 my-1 mx-6 px-4 py-2 rounded grid-cols-4 gap-1">
                       <div>
                           {{$index + 1}}
                       </div>
                        <div>
-                          <p>Nombre</p>
-                           {{$d->Nombre}}
+                          <p class="text-left text-xs">Nombre</p>
+                          <p class="text-left text-xl">{{$d->Nombre}}</p>
                        </div>
                        <div>
-                          <p>Tag</p>
-                           {{$d->Tag}}
+                          <p class="text-left text-xs">Tag</p>
+                           <p class="text-left text-xl">{{$d->Tag}}</p>
                        </div>
                        <div>
-                           <p>Sponsor</p>
-                            {{$d->Sponsor}}
+                           <p class="text-left text-xs">Sponsor</p>
+                            <p class="text-left text-xl">{{$d->Sponsor}}</p>
                        </div>
+                       {{--
                        <div>
                            <button wire:click="delete({{$d->id}})" class="bg-red-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded mt-3 ml-2">Eliminar</button>
                        </div>
+                       --}}
                     </div>
                 @endforeach
             </div>
@@ -91,5 +125,6 @@
             No hay participantes registrados
         </div>
     @endif
+    @include('Plantillas.Alertas.alphineNotifyAbajo')
     
 </div>
