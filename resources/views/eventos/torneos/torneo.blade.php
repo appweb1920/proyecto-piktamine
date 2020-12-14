@@ -1,5 +1,6 @@
 @extends('Plantillas.Plantillageneral')
 
+
 {{-- Seccion del header para mostrar informacion --}}
 @section('headerblancotecho')
 

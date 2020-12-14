@@ -12,11 +12,6 @@
             'route' => route('R-events'), 
             'active' => request()->routeIs('R-events')
         ],
-        [
-            'name' => '(Testing)',
-            'route' => route('R-testing'), 
-            'active' => request()->routeIs('R-testing')
-        ],
     ];
       
 @endphp   

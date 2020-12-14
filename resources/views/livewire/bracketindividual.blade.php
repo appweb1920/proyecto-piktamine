@@ -23,13 +23,13 @@
    
 @endphp
     {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
-    
-    
-    
-    <br>
-    total registros: 
-    {{$total}}
-    
+
+   <x-alert color="blue" class="mb-4">
+        <x-slot name="title">
+            ¡Aviso!
+        </x-slot>  
+            ¡Por el momento solo es posible visualizar el bracket!
+    </x-alert>
     
     
     <div class="demo">{{-- Aqui va a escribir todo el arbol --}}
