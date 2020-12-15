@@ -10,8 +10,14 @@ Testeo
 {{-- Seccion de mi header --}}
 @section('micodigo')  
    
-   <div class="demo"></div>
 
+   <div id="save">
+   <div class="bg-green-300 h-20 w-full">
+       <span id="saveOutput">
+       </span>
+   </div>
+   <div class="demo"></div>
+   </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -22,39 +28,54 @@ Testeo
 <script src="{{ asset('plugins/jQuery-Bracket-World/dist/assets/scripts/jquery.bracket-world.min.js') }}"></script> 
     --}}
     
-<script src="{{ asset('plugins/jquery-bracket-master/dist/jquery.bracket.min.js') }}"></script>            
+<script src="{{ asset('plugins/jquery-bracket-master/dist/jquery.bracket.min.js') }}"></script> 
+                      
             
 <script>  
 
-var singleElimination = {
-  "teams": [              // Matchups
-    ["Team 1", "Team 2"], // First match
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"],
-    ["Team 3", "Team 4"], 
-      
+var saveData = {
+  teams: [
+    ["Team 1", "Team 2"],
+    ["Team 3", null],
+    ["Team 4", null],
+    ["Team 5", null]
   ],
-  "results": [            // List of brackets (single elimination, so only one bracket)
-    [                     // List of rounds in bracket
-      [                   // First round in this bracket
-        [0, 0],           // Team 1 vs Team 2
-        [0, 0]            // Team 3 vs Team 4
-      ],
-      [                   // Second (final) round in single elimination bracket
-        [, ],           // Match for first place
-        [, ]            // Match for 3rd place
+  results: [
+      [
+        
       ]
-    ]
   ]
+};
+ 
+/* Called whenever bracket is modified
+ *
+ * data:     changed bracket object in format given to init
+ * userData: optional data given when bracket is created.
+ */
+function saveFn(data, userData) {
+  var json = jQuery.toJSON(data)
+  $('#saveOutput').text(json)
+  /* You probably want to do something like this
+  jQuery.ajax("rest/"+userData, {contentType: 'application/json',
+                                dataType: 'json',
+                                type: 'post',
+                                data: json})
+  */
 }
+ 
+$(function() {
+    var container = $('div#save .demo')
+    container.bracket({
+      init: saveData,
+      save: saveFn,
+      userData: "http://myapi"})
+ 
+    /* You can also inquiry the current data */
+    var data = container.bracket('data')
+    $('#dataOutput').text(jQuery.toJSON(data))
+  })
 
-$('.demo').bracket({
-  init: singleElimination
-});
+
     
 </script>    
     

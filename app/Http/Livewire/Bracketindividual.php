@@ -14,6 +14,7 @@ class Bracketindividual extends Component
     public $total=1;
     public $totalrondas=1;
     public $totaltemp=1;
+    public $valor1=1;
     
     public function mount($databracket,$idtorneo){
         $this->datab=$databracket;

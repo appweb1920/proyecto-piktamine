@@ -13,6 +13,7 @@
 
 @endsection
 
+
 {{-- Seccion de mi header --}}
 @section('micodigo')
 

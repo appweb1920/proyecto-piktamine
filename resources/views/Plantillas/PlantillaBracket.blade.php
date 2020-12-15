@@ -21,6 +21,7 @@
             {{--@include('Plantillas.Miheader')--}}
    
               {{--@include('Plantillas.Alertas.Alerta1')--}}
+              @yield('header2')
    
               <!-- INICIO ESPACIO DE TRABAJO -->
               <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 h-4/5">
